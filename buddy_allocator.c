@@ -5,28 +5,38 @@
 
 #include "buddy_allocator.h"
 
-void BuddyAllocator_init(BuddyAllocator *alloc, 
-                        int num_levels, 
-                        char *buffer,
-                        int buffer_size, 
-                        char *memory, 
-                        int min_bucket_size) {
-  // we need room also for level 0
-  alloc->num_levels = num_levels;
-  alloc->memory = memory;
-  alloc->min_bucket_size = min_bucket_size;
-  assert(num_levels < MAX_LEVELS);
-  // we need enough memory to handle internal structures
-  assert(buffer_size >= BuddyAllocator_calcSize(num_levels));
+void BuddyAllocator_initvoid(BuddyAllocator* allocator,
+                         int num_levels,                         
+                         char* memory, //memoria allocator
+                         int memory_size, 
+                         char* memory_bitmap, //memoria bitmap
+                         int memory_bitmap_size,                                                 
+                         int min_bucket_size){
 
- 
+  // we need room also for level 0
+  allocator->num_levels = num_levels;
+  allocator->memory = memory;
+  allocator->memory_size  = memory_size;
+ // controllo se la dimensione è grande almeno per la bitmap
+  assert(min_bucket_size>8);
+  allocator->min_bucket_size=min_bucket_size;
+
+  assert(num_levels<MAX_LEVELS);
+
+  //generazione numero di bit per la bit_map, ogni bit è un buddy di minbucket size
+  int num_bits = (1<<(num_levels+1)) - 1;
+  //se non ci sono abbastanza byte per tutti i bit che devo conservare errore
+  assert(BitMap_getBytes(num_bits)<=memory_bitmap_size);
 
   printf("BUDDY INITIALIZING\n");
-  printf("\tlevels: %d -- list-items: %d", num_levels, list_items);
-  printf("\tmax list entries %d bytes\n", list_alloc_size);
-  printf("\tbucket size:%d\n", min_bucket_size);
-  printf("\tmanaged memory %d bytes\n", (1 << num_levels) * min_bucket_size);
+  printf("\tmanaged memory: %d bytes\n", memory_size);
+  printf("\tlevels: %d\n", num_levels);  
+  printf("\tmin bucket size:%d\n", min_bucket_size);  
+  printf("\tbits_bitmap: %d\n", num_bits);
+  printf("\tbitmap memory %d bytes usati di %d bytes forniti \n",BitMap_getBytes(num_bits), memory_bitmap_size);
 
+  BitMap_init(&allocator->bitmap, num_bits, memory_bitmap);
+  print_bitmap(&allocator->bitmap);
 };
 
 
