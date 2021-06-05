@@ -32,10 +32,3 @@ void *BuddyAllocator_malloc(BuddyAllocator *allocator, int size);
 // releases allocated memory
 void BuddyAllocator_free(BuddyAllocator *allocator, void *mem);
 
-// ----------------------------------------------------------------------- //
-// ----------------------------------------------------------------------- //
-//ia novel initialization function, just a single buffer also used by the pool allocator
-void BuddyAllocator_initSingleBuffer(BuddyAllocator* b_allocator_,
-                                     int max_num_levels_,
-                                     uint64_t allocator_memory_size_,
-                                     char* allocator_memory_);
