@@ -41,7 +41,12 @@ void BuddyAllocator_initvoid(BuddyAllocator* allocator,
 
 
 void *BuddyAllocator_malloc(BuddyAllocator *alloc, int size) {
-  
+  BitMap bitmap = allocator->bitmap;
+  size += sizeof(int);
+  assert(allocator->memory_size  > size);
+
+  int actual_level=check_level(allocator,size,allocator->min_bucket_size,allocator->num_levels);
+  printf("Provo ad allocare il nuovo blocco di size %d al livello %d\n", size,actual_level);
 }
 // releases allocated memory
 void BuddyAllocator_free(BuddyAllocator *alloc, void *mem) {
