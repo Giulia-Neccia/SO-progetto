@@ -42,3 +42,14 @@ void print_bitmap(BitMap* bit_map){
   }
   printf("\n");
   }
+  int check_level(BuddyAllocator *allocator,int size,int bucket_size,int actual_level){
+  for(int i = 0; i<allocator->num_levels; i++){ //salgo di livello fino a trovare l'indice con dimensione minima 
+  //da soddisfare la richiesta
+    if(bucket_size>size) break;
+    else{
+      bucket_size*=2; //la dimensione raddoppia se salgo
+      actual_level--; //sto salendo di livello
+    }
+  }
+  return actual_level;
+}
