@@ -64,10 +64,12 @@ void *BuddyAllocator_malloc(BuddyAllocator *alloc, int size) {
   set_parent(&bitmap, idx , 1);
   set_child(&bitmap, idx ,1);
   printf("l'indice è %d\n",idx);
+  print_bitmap(&bitmap);
   char* start_memory=allocator->memory+startIdx(idx)*size_start;
   *((int*)start_memory)=idx; //ritorno il ptr+ 4 e salvo nei primi 4 byte il valore dell'indice
    return (void*)(start_memory + 4);
 }
 // releases allocated memory
 void BuddyAllocator_free(BuddyAllocator *alloc, void *mem) {
+
 }
