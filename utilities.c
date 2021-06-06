@@ -53,3 +53,25 @@ void print_bitmap(BitMap* bit_map){
   }
   return actual_level;
 }
+void set_parent(BitMap* bit_map, int bit_num, int status){
+  if(bit_num==0){ // sono arrivata al nodo radice
+    BitMap_setBit(bit_map, bit_num, status);
+  }
+
+  else{
+    BitMap_setBit(bit_map, bit_num, status);
+    printf("il figlio è %d il padre è %d\n",bit_num,parentIdx(bit_num));
+    set_parent(bit_map,parentIdx(bit_num),status);
+  }
+}
+
+
+
+void set_child(BitMap* bit_map, int bit_num, int status){
+  if(bit_num<bit_map->num_bits){ //controllo che il bit_num sia  minore del numero massimo di bit
+    BitMap_setBit(bit_map, bit_num, status);
+    set_child(bit_map, bit_num*2+1, status); //setto a 1 il figlio  sx
+    set_child(bit_map, bit_num*2+2, status); //setto a 1 il figlio  dx
+  }
+}
+
