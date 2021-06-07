@@ -14,8 +14,6 @@ typedef struct {
   int min_bucket_size; // the minimum page of RAM that can be returned
 } BuddyAllocator;
 
-// computes the size in bytes for the buffer of the allocator
-int BuddyAllocator_calcSize(int num_levels);
 
 // initializes the buddy allocator, and checks that the buffer is large enough
 void BuddyAllocator_init(BuddyAllocator* allocator,
