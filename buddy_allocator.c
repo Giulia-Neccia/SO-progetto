@@ -2,10 +2,9 @@
 #include <math.h> // for floor and log2
 #include <stdio.h>
 #include <stdlib.h>
-
 #include "buddy_allocator.h"
-
-void BuddyAllocator_initvoid(BuddyAllocator* allocator,
+#include "utilities.c"
+void BuddyAllocator_init(BuddyAllocator* allocator,
                          int num_levels,                         
                          char* memory, //memoria allocator
                          int memory_size, 
@@ -40,7 +39,7 @@ void BuddyAllocator_initvoid(BuddyAllocator* allocator,
 };
 
 
-void *BuddyAllocator_malloc(BuddyAllocator *alloc, int size) {
+void *BuddyAllocator_malloc(BuddyAllocator *allocator, int size) {
   BitMap bitmap = allocator->bitmap;
   size = size+ sizeof(int); //sizeof(int) byte vengono usati per salvare l'indice della bitmap
   assert(allocator->memory_size  > size);

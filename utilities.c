@@ -20,7 +20,7 @@ int buddyIdx(int idx) {
 int parentIdx(int idx) { 
      return floor((idx-1)/2);
 }
-int startIdx(int idx) {(int idx){
+int startIdx(int idx){
   return (idx-((1<<levelIdx(idx))-1));
 }
 
