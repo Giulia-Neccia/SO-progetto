@@ -69,6 +69,20 @@ void *BuddyAllocator_malloc(BuddyAllocator *allocator, int size) {
    return (void*)(start_memory + 4);
 }
 // releases allocated memory
-void BuddyAllocator_free(BuddyAllocator *alloc, void *mem) {
+void BuddyAllocator_free(BuddyAllocator *allocator, void *mem) {
+  int idx=*(int*)((char*)(mem+4));
+  assert("indice fuori dai limiti" && idx<1<<(allocator->num_levels+1));
+  //controllo se è già libero
+  assert("blocco già liberato" && BitMap_bit(&allocator->bitmap,idx));
+  //se è una free valida devo liberare lui e fare merge in caso di buddy libero
+  // controllo se può avere un buddy con idx!=0 e se questo è a zero
+  while (idx!=0 && !BitMap_bit(&allocator->bitmap,buddyIdx)){
+    printf("Riunisco %d e %d \n",idx,buddyIdx(idx));
+    BitMap_setBit(&allocator->bitmap,buddyIdx(idx),0);
+    BitMap_setBit(&allocator->bitmap,parentIdx(idx),0);
+    idx=parentIdx(idx);
+  }
+  print_bitmap(&allocator->bitmap);
+
 
 }
