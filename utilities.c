@@ -12,9 +12,9 @@ int levelIdx(size_t idx){
 
 int buddyIdx(int idx) {
   if (idx & 0x1) {
-    return idx - 1;
+    return idx + 1;
   }
-  return idx + 1;
+  return idx - 1;
 }
 
 int parentIdx(int idx) { 

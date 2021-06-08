@@ -23,9 +23,12 @@ int main(int argc, char** argv) {
   void* p1=BuddyAllocator_malloc(&alloc, 27);
   void* p2=BuddyAllocator_malloc(&alloc, 27);
   void* p3=BuddyAllocator_malloc(&alloc, 54);
-//   BuddyAllocator_free(&alloc, p1);
+  
 //   BuddyAllocator_free(&alloc, p2);
 //   BuddyAllocator_free(&alloc, p3);
 printf ("%p %p %p", p1,p2,p3);
+BuddyAllocator_free(&alloc, p1);
+void* p4=BuddyAllocator_malloc(&alloc, 27);
+
 return 0; 
 }

@@ -70,20 +70,20 @@ void *BuddyAllocator_malloc(BuddyAllocator *allocator, int size) {
 }
 // releases allocated memory
 void BuddyAllocator_free(BuddyAllocator *allocator, void *mem) {
-  int idx=*(int*)((char*)(mem+4));
+  int idx=*(int*)((char*)mem - sizeof(int));
   assert("indice fuori dai limiti" && idx<1<<(allocator->num_levels+1));
   //controllo se è già libero
   assert("blocco già liberato" && BitMap_bit(&allocator->bitmap,idx));
+  printf("Sto liberando la memoria puntata da %p con indice della bitmap %d\n", mem, idx);
+
   //lo libero e libero tutti i figli
   BitMap_setBit(&allocator->bitmap,idx,0);
   set_child(&allocator->bitmap,idx,0);
   //se è una free valida devo liberare lui e fare merge in caso di buddy libero
   // controllo se può avere un buddy con idx!=0 e se questo è a zero
 
-  while (idx!=0 && !BitMap_bit(&allocator->bitmap,buddyIdx(idx))){
+  while (idx!=0 &&  !BitMap_bit(&allocator->bitmap,buddyIdx(idx))){
     printf("Riunisco %d e %d \n",idx,buddyIdx(idx));
-    //libero il fratello
-    BitMap_setBit(&allocator->bitmap,buddyIdx(idx),0);
     //libero il padre
     BitMap_setBit(&allocator->bitmap,parentIdx(idx),0);
     idx=parentIdx(idx);
