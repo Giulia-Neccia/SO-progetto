@@ -53,13 +53,17 @@ void *BuddyAllocator_malloc(BuddyAllocator *allocator, int size) {
 
   //scandire da first_idx del livello 
   int idx=-1;
-  for(int i=firstIdx(actual_level); i<firstIdx(actual_level+1)-1; i++){
+  for(int i=firstIdx(actual_level); i<firstIdx(actual_level+1); i++){
     if(!BitMap_bit(&bitmap,i)){ //se non è occupato
       idx=i; //lo occuperò e salvo l'indice
       break;
     }
   }
-  assert("non ci sono livelli liberi a sufficienza" && idx!=-1);
+  //assert("non ci sono livelli liberi a sufficienza" && idx!=-1);
+  if (idx==-1){
+    printf("ERRORE: Non ci sono livelli liberi a sufficienza\n\n");
+    return NULL;
+  }
   set_parent(&bitmap, idx , 1);
   set_child(&bitmap, idx ,1);
   printf("l'indice è %d\n",idx);
@@ -70,9 +74,13 @@ void *BuddyAllocator_malloc(BuddyAllocator *allocator, int size) {
 }
 // releases allocated memory
 void BuddyAllocator_free(BuddyAllocator *allocator, void *mem) {
+  if (mem==NULL){
+       printf("ERRORE: Memoria mai allocata\n\n");
+      return;
+    }
   int idx=*(int*)((char*)mem - sizeof(int));
-    printf("Provo a liberare la memoria puntata da %p con indice della bitmap %d\n", mem, idx);
-
+  printf("Provo a liberare la memoria puntata da %p con indice della bitmap %d\n", mem, idx);
+    
  // assert("indice fuori dai limiti" && idx<1<<(allocator->num_levels+1));
  if (idx>1<<(allocator->num_levels+1)){
    printf("ERRORE: Indice fuori dai limiti\n\n");

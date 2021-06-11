@@ -19,9 +19,11 @@ int main(int argc, char** argv) {
                       MEMORY_SIZE,
                       MIN_BUCKET_SIZE);
   printf("DONE\n");
-    printf("ALLOCO P2\n");
+  printf("ALLOCO P1\n");
+  printf("---------------------------\n");
   void* p1=BuddyAllocator_malloc(&alloc, 10);
-    printf("ALLOCO P3\n");
+  printf("ALLOCO P5\n");
+  printf("---------------------------\n");
 
   void* p5=BuddyAllocator_malloc(&alloc, 10);
   BuddyAllocator_free(&alloc, p1);
@@ -56,15 +58,23 @@ int main(int argc, char** argv) {
   //failing tests:
   printf("QUESTI TEST DEVONO FALLIRE\n");
   printf("---------------------------\n");
+  printf("FREE P4\n");
+  printf("---------------------------\n");
   BuddyAllocator_free(&alloc, p4);
+  printf("ALLOCO P8\n");
+  printf("---------------------------\n");
   void* p8=BuddyAllocator_malloc(&alloc, 64);
-  void* p9=BuddyAllocator_malloc(&alloc, 64);
+  printf("ALLOCO P9\n");
+  printf("---------------------------\n");
+  void* p9=BuddyAllocator_malloc(&alloc, 128);
+  printf("FREE P8\n");
+  printf("---------------------------\n");
   BuddyAllocator_free(&alloc, p8);
+  printf("FREE P9\n");
+  printf("---------------------------\n");
   BuddyAllocator_free(&alloc, p9);
-
-  void* p6=BuddyAllocator_malloc(&alloc, 100);
-  BuddyAllocator_free(&alloc, p6);
-
+  printf("FREE P1\n");
+  printf("---------------------------\n");
   BuddyAllocator_free(&alloc, p1);
 
 return 0; 
