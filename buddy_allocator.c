@@ -71,9 +71,19 @@ void *BuddyAllocator_malloc(BuddyAllocator *allocator, int size) {
 // releases allocated memory
 void BuddyAllocator_free(BuddyAllocator *allocator, void *mem) {
   int idx=*(int*)((char*)mem - sizeof(int));
-  assert("indice fuori dai limiti" && idx<1<<(allocator->num_levels+1));
+    printf("Provo a liberare la memoria puntata da %p con indice della bitmap %d\n", mem, idx);
+
+ // assert("indice fuori dai limiti" && idx<1<<(allocator->num_levels+1));
+ if (idx>1<<(allocator->num_levels+1)){
+   printf("ERRORE: Indice fuori dai limiti\n\n");
+   return;
+ }
   //controllo se è già libero
-  assert("blocco già liberato" && BitMap_bit(&allocator->bitmap,idx));
+  //assert("blocco già liberato" && BitMap_bit(&allocator->bitmap,idx));
+  if (!BitMap_bit(&allocator->bitmap,idx)){
+   printf("ERRORE: Blocco già liberato\n\n");
+   return;
+ }
   printf("Sto liberando la memoria puntata da %p con indice della bitmap %d\n", mem, idx);
 
   //lo libero e libero tutti i figli
