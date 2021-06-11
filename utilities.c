@@ -31,9 +31,25 @@ int firstIdx(int lvl){
 
 
 void print_bitmap(BitMap* bit_map){
+  // for (int i=0; i<bit_map->num_bits; i++){
+  //   if (i==firstIdx(levelIdx(i))){
+  //     printf ("level %d: ", levelIdx(i));
+  //   }
+  //   if (levelIdx(i)!=levelIdx(i+1)){
+  //     printf("%d ", BitMap_bit(bit_map,i));
+  //     printf("\n");
+  //   }
+  //   else{ 
+  //    printf("%d ", BitMap_bit(bit_map,i));
+  //   }
+  // }
+  // printf("\n");
   for (int i=0; i<bit_map->num_bits; i++){
     if (i==firstIdx(levelIdx(i))){
       printf ("level %d: ", levelIdx(i));
+      for (int k=bit_map->num_bits>>(levelIdx(i)+1);k>0; k--){
+        printf(" ");
+      }
     }
     if (levelIdx(i)!=levelIdx(i+1)){
       printf("%d ", BitMap_bit(bit_map,i));
@@ -41,9 +57,13 @@ void print_bitmap(BitMap* bit_map){
     }
     else{ 
      printf("%d ", BitMap_bit(bit_map,i));
+     for (int k=bit_map->num_bits>>(levelIdx(i)+1);k>0; k--){
+        printf("  ");
+      }
     }
   }
   printf("\n");
+  
   }
   int check_level(BuddyAllocator *allocator,int size,int bucket_size,int actual_level){
     for(int i = 0; i<allocator->num_levels; i++){ //salgo di livello fino a trovare l'indice con dimensione minima 

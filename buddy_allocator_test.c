@@ -4,7 +4,7 @@
 #define BUFFER_SIZE 256
 #define BUDDY_LEVELS 3
 #define MEMORY_SIZE 256
-#define MIN_BUCKET_SIZE (MEMORY_SIZE>>(BUDDY_LEVELS))
+#define MIN_BUCKET_SIZE (BUFFER_SIZE>>(BUDDY_LEVELS))
 
 char buffer[BUFFER_SIZE]; // 100 Kb buffer to handle memory should be enough
 char memory[MEMORY_SIZE];
