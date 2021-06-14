@@ -1,4 +1,4 @@
-"Progetto di sistemi operativi"
+## Progetto di sistemi operativi
 
 Per eseguire:
 - make
