@@ -2,4 +2,4 @@
 
 Per eseguire:
 - make
-- .\buddy_allocator
+- .\buddy_allocator_test
